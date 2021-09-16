@@ -24,7 +24,7 @@ async-trait = "0.1"
 attohttpc = { version = "0.17", optional = true, default-features = false }
 aws-creds = { version = "0.26", path = "../aws-creds", default-features = false }
 aws-region = { version = "0.23", path = "../aws-region" }
-base64 = "0.13.0"
+base64 = "^0.12"  # Use the same version as rustls.
 cfg-if = "1"
 chrono = "0.4"
 futures = { version = "0.3", optional = true }
