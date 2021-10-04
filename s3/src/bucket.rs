@@ -49,6 +49,8 @@ use http::HeaderMap;
 
 pub const CHUNK_SIZE: usize = 8_388_608; // 8 Mebibytes, min is 5 (5_242_880);
 
+const DEFAULT_REQUEST_TIMEOUT: Option<Duration> = Some(Duration::from_secs(30));
+
 #[derive(Debug, PartialEq)]
 pub struct Tag {
     key: String,
@@ -335,7 +337,7 @@ impl Bucket {
             credentials,
             extra_headers: HeaderMap::new(),
             extra_query: HashMap::new(),
-            request_timeout: None,
+            request_timeout: DEFAULT_REQUEST_TIMEOUT,
             path_style: false,
         })
     }
@@ -359,7 +361,7 @@ impl Bucket {
             credentials: Credentials::anonymous()?,
             extra_headers: HeaderMap::new(),
             extra_query: HashMap::new(),
-            request_timeout: None,
+            request_timeout: DEFAULT_REQUEST_TIMEOUT,
             path_style: false,
         })
     }
@@ -388,7 +390,7 @@ impl Bucket {
             credentials,
             extra_headers: HeaderMap::new(),
             extra_query: HashMap::new(),
-            request_timeout: None,
+            request_timeout: DEFAULT_REQUEST_TIMEOUT,
             path_style: true,
         })
     }
@@ -412,7 +414,7 @@ impl Bucket {
             credentials: Credentials::anonymous()?,
             extra_headers: HeaderMap::new(),
             extra_query: HashMap::new(),
-            request_timeout: None,
+            request_timeout: DEFAULT_REQUEST_TIMEOUT,
             path_style: true,
         })
     }
@@ -1443,7 +1445,8 @@ impl Bucket {
     }
 
     /// Configure bucket to apply this request timeout to all HTTP
-    /// requests, or no (infinity) timeout if `None`.
+    /// requests, or no (infinity) timeout if `None`.  Defaults to
+    /// 30 seconds.
     ///
     /// Only the attohttpc and the Reqwest backends obey this option;
     /// async code may instead await with a timeout.
